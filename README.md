@@ -1,2 +1,2 @@
-# Proyecto-Gr-fica-
+# Proyecto Gráfica - Hotel Grezalma
 Proyecto Final de Computación Gráfica.
