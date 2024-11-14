@@ -31,6 +31,7 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 void MouseCallback(GLFWwindow *window, double xPos, double yPos);
 void DoMovement();
 void animacion();
+void animacion2();
 
 // Window dimensions
 const GLuint WIDTH = 800, HEIGHT = 600;
@@ -92,6 +93,37 @@ glm::vec3 pointLightPositions[] = {
 };
 
 glm::vec3 LightP1;
+
+//Animación del ave
+float movKitX = 0.0;
+float movKitZ = 0.0;
+float rotKit = 90.0;
+float anguloAleteo = 0.0f; // ángulo de aleteo de las alas
+bool aleteoHaciaArriba = true; // dirección del aleteo
+bool circuito = true;
+bool recorrido1 = true;
+bool recorrido2 = false;
+bool recorrido3 = false;
+bool recorrido4 = false;
+bool recorrido5 = false;
+bool recorrido6 = false;
+bool recorrido7 = false;
+bool recorrido8 = false;
+bool recorrido9 = false;
+
+//Animación del coche
+float movKitX2 = 0.0;
+float movKitZ2 = 0.0;
+float rotKit2 = 90.0;
+
+bool circuito2 = false;
+bool recorrido12 = true;
+bool recorrido22 = false;
+bool recorrido32 = false;
+bool recorrido42 = false;
+bool recorrido52 = false;
+bool recorrido62 = false;
+bool recorrido72 = false;
 
 
 
@@ -421,6 +453,7 @@ int main()
 		glfwPollEvents();
 		DoMovement();
 		animacion();
+		animacion2();
 
 
 		// Clear the colorbuffer
@@ -854,6 +887,7 @@ void DoMovement()
 
 
 
+
 	// Camera controls
 	if (keys[GLFW_KEY_W] || keys[GLFW_KEY_UP])
 	{
@@ -880,9 +914,198 @@ void DoMovement()
 		camera.ProcessKeyboard(RIGHT, deltaTime);
 	}
 
-
-
-
-
-
 }
+
+void animacion()
+{
+
+	//Movimiento del ave
+	if (circuito)
+	{
+		//Movimiento del ave
+		if (circuito)
+		{
+			if (recorrido1)
+			{
+				movKitX += 0.005f;
+				if (movKitX > 30)
+				{
+					recorrido1 = false;
+					recorrido2 = true;
+				}
+			}
+			if (recorrido2)
+			{
+				rotKit = 0;
+				movKitZ += 0.005f;
+				if (movKitZ > 30)
+				{
+					recorrido2 = false;
+					recorrido3 = true;
+
+				}
+			}
+
+			if (recorrido3)
+			{
+				rotKit = 270;
+				movKitX -= 0.005f;
+				if (movKitX < 0)
+				{
+					recorrido3 = false;
+					recorrido4 = true;
+				}
+			}
+
+			if (recorrido4)
+			{
+				rotKit = 180;
+				movKitZ -= 0.005f;
+				if (movKitZ < 0)
+				{
+					recorrido4 = false;
+					recorrido5 = true;
+				}
+			}
+			if (recorrido5)
+			{
+				rotKit = 90;
+				movKitX += 0.005f;
+				if (movKitX > 30)
+				{
+					recorrido5 = false;
+					recorrido6 = true;
+				}
+			}
+			if (recorrido6)
+			{
+				rotKit = 315;
+				movKitZ += 0.005f;
+				movKitX -= 0.005f;
+				if (movKitZ > 30 && movKitX < 0)
+				{
+					recorrido6 = false;
+					recorrido7 = true;
+				}
+			}
+
+			if (recorrido7)
+			{
+				rotKit = 180;
+				movKitZ -= 0.005f;
+				if (movKitZ < 0)
+				{
+					recorrido7 = false;
+					recorrido8 = true;
+				}
+			}
+
+			if (recorrido8)
+			{
+				rotKit = 45;
+				movKitZ += 0.005f;
+				movKitX += 0.005f;
+				if (movKitX > 30 && movKitZ > 30)
+				{
+					recorrido8 = false;
+					recorrido9 = true;
+				}
+			}
+			if (recorrido9)
+			{
+				rotKit = 270;
+				movKitX -= 0.005f;
+				if (movKitX < 0)
+				{
+					recorrido9 = false;
+					recorrido7 = true;
+				}
+			}
+
+		}
+	}
+}
+
+	void animacion2()
+	{
+
+		//Movimiento del coche
+		if (circuito2)
+		{
+			if (recorrido12)
+			{
+				movKitX2 += 0.1f;
+				if (movKitX2 > 94)
+				{
+					recorrido12 = false;
+					recorrido22 = true;
+				}
+			}
+			if (recorrido22)
+			{
+				rotKit2 = 0;
+				movKitZ2 += 0.1f;
+				if (movKitZ2 > 94)
+				{
+					recorrido22 = false;
+					recorrido32 = true;
+
+				}
+			}
+
+			if (recorrido32)
+			{
+				rotKit2 = 270;
+				movKitX2 -= 0.1f;
+				if (movKitX < 0)
+				{
+					recorrido32 = false;
+					recorrido42 = true;
+				}
+			}
+
+			if (recorrido42)
+			{
+				rotKit2 = 180;
+				movKitZ2 -= 0.1f;
+				if (movKitZ2 < 0)
+				{
+					recorrido42 = false;
+					recorrido52 = true;
+				}
+			}
+			if (recorrido52)
+			{
+				rotKit2 = 90;
+				movKitX2 += 0.1f;
+				if (movKitX2 > 94)
+				{
+					recorrido52 = false;
+					recorrido62 = true;
+				}
+			}
+			if (recorrido62)
+			{
+				rotKit2 = 315;
+				movKitZ2 += 0.1f;
+				movKitX2 -= 0.1f;
+				if (movKitZ2 > 94 && movKitX2 < 0)
+				{
+					recorrido62 = false;
+					recorrido72 = true;
+				}
+			}
+
+			if (recorrido72)
+			{
+				rotKit2 = 180;
+				movKitZ2 -= 0.1f;
+				if (movKitZ2 < 0)
+				{
+					recorrido72 = false;
+					recorrido52 = true;
+				}
+			}
+
+		}
+	}
