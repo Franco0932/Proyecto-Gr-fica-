@@ -31,6 +31,7 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 void MouseCallback(GLFWwindow *window, double xPos, double yPos);
 void DoMovement();
 void animacion();
+void animacion1();
 void animacion2();
 
 // Window dimensions
@@ -38,7 +39,7 @@ const GLuint WIDTH = 800, HEIGHT = 600;
 int SCREEN_WIDTH, SCREEN_HEIGHT;
 
 // Camera
-Camera  camera(glm::vec3(-100.0f, 2.0f, -45.0f));
+Camera  camera(glm::vec3(0.0f, 2.0f, 5.0f));
 GLfloat lastX = WIDTH / 2.0;
 GLfloat lastY = HEIGHT / 2.0;
 bool keys[1024];
@@ -49,7 +50,7 @@ float movCamera = 0.0f;
 
 // Light attributes
 glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
-glm::vec3 PosIni(-95.0f, 1.0f, -45.0f);
+glm::vec3 PosIni(-15.0f, 10.0f, -15.0f);
 glm::vec3 lightDirection(0.0f, -1.0f, -1.0f);
 
 bool active;
@@ -227,20 +228,13 @@ int main()
 	Shader SkyBoxshader("Shaders/SkyBox.vs", "Shaders/SkyBox.frag");
 	Shader animShader("Shaders/anim.vs", "Shaders/anim.frag");
 
-	//-------------------------------Carga de Modelos de Franco-----------------------------------------------
 	Model BotaDer((char*)"Models/Personaje/bota.obj");
-	
-	//---------------------------------------------------------------------------------------------------------
-	// 
-	//-------------------------------Carga de Modelos de Angelus-----------------------------------------------
-	//Model BotaDer((char*)"Models/Personaje/bota.obj");
-	
-	//---------------------------------------------------------------------------------------------------------
-	// 
-	//-------------------------------Carga de Modelos de Ivan-----------------------------------------------
-	//Model BotaDer((char*)"Models/Personaje/bota.obj");
-	
-	//---------------------------------------------------------------------------------------------------------
+	Model Piscina((char*)"Models/piscina/piscina2.obj");
+	Model Pasto((char*)"Models/Pasto/Pasto2.obj");
+	Model AlaDer((char*)"Models/Ave/AlaDer.obj");
+	Model AlaIzq((char*)"Models/Ave/AlaIzq.obj");
+	Model Cuerpo((char*)"Models/Ave/Cuerpo.obj");
+
 
 
 	// Build and compile our shader program
@@ -429,12 +423,12 @@ int main()
 
 	// Load textures
 	vector<const GLchar*> faces;
-	faces.push_back("SkyBox/rightMontaña.tga");
-	faces.push_back("SkyBox/leftMontaña.tga");
-	faces.push_back("SkyBox/topMontaña.tga");
-	faces.push_back("SkyBox/bottomMontaña.tga");
-	faces.push_back("SkyBox/backMontaña.tga");
-	faces.push_back("SkyBox/frontMontaña.tga");
+	faces.push_back("SkyBox/Proy/right.tga");
+	faces.push_back("SkyBox/Proy/left.tga");
+	faces.push_back("SkyBox/Proy/top.tga");
+	faces.push_back("SkyBox/Proy/bottom.tga");
+	faces.push_back("SkyBox/Proy/back.tga");
+	faces.push_back("SkyBox/Proy/front.tga");
 	
 	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
 
@@ -453,6 +447,7 @@ int main()
 		glfwPollEvents();
 		DoMovement();
 		animacion();
+		animacion1();
 		animacion2();
 
 
@@ -475,7 +470,7 @@ int main()
 		// == ==========================
 		// Directional light
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), -0.2f, -1.0f, -0.3f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 1.0f, 1.0f, 1.0f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.4f, 0.4f, 0.4f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.5f, 0.5f, 0.5f);
 
@@ -494,8 +489,8 @@ int main()
 		// Point light 2
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].position"), pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].ambient"), 0.05f, 0.05f, 0.05f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].diffuse"), 1.0f, 1.0f, 0.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].specular"), 1.0f, 1.0f, 0.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].diffuse"), 1.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].specular"), 1.0f, 1.0f, 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].linear"), 0.09f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].quadratic"), 0.032f);
@@ -503,8 +498,8 @@ int main()
 		// Point light 3
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].position"), pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].ambient"), 0.05f, 0.05f, 0.05f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].diffuse"), 0.0f, 1.0f, 1.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].specular"), 0.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].diffuse"), 1.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].specular"), 1.0f, 1.0f, 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].linear"), 0.09f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[2].quadratic"), 0.032f);
@@ -512,8 +507,8 @@ int main()
 		// Point light 4
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].position"), pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].ambient"), 0.05f, 0.05f, 0.05f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].diffuse"), 1.0f, 0.0f, 1.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].specular"), 1.0f, 0.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].diffuse"), 1.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[3].specular"), 1.0f, 1.0f, 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].linear"), 0.09f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].quadratic"), 0.032f);
@@ -566,6 +561,44 @@ int main()
 		
 		view = camera.GetViewMatrix();
 		glm::mat4 model(1);
+		model = glm::translate(model, glm::vec3(0.0f, 0.1f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		Pasto.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
+		model = glm::translate(model, glm::vec3(-480.0f, 0.1f, -2800.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		Piscina.Draw(lightingShader);
+
+
+		//Pajaro
+		model = glm::mat4(1);
+		model = glm::translate(model, PosIni + glm::vec3(movKitX, 0, movKitZ));
+		model = glm::rotate(model, glm::radians(rotKit), glm::vec3(0.0f, 1.0f, 0.0));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		Cuerpo.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, PosIni + glm::vec3(movKitX, 0, movKitZ));
+		model = glm::rotate(model, glm::radians(rotKit), glm::vec3(0.0f, 1.0f, 0.0));
+		model = glm::rotate(model, glm::radians(anguloAleteo), glm::vec3(0.0f, 0.0f, 1.0));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		AlaIzq.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, PosIni + glm::vec3(movKitX, 0, movKitZ));
+		model = glm::rotate(model, glm::radians(rotKit), glm::vec3(0.0f, 1.0f, 0.0));
+		model = glm::rotate(model, glm::radians(anguloAleteo), glm::vec3(0.0f, 0.0f, -1.0));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		AlaDer.Draw(lightingShader);
+
 	//	tmp = model = glm::translate(model, glm::vec3(0, 1, 0));
 	//	model = glm::translate(model,glm::vec3(posX,posY,posZ));
 	//	model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0));
@@ -916,7 +949,7 @@ void DoMovement()
 
 }
 
-void animacion()
+void animacion1()
 {
 
 	//Movimiento del ave
